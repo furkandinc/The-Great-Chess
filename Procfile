@@ -1,0 +1,1 @@
+web: node ./TheGreatChess/Game.js

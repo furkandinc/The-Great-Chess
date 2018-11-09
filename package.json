@@ -1,0 +1,14 @@
+{
+  "name": "hello-heroku",
+  "version": "1.0.0",
+  "description": "",
+  "main": "TheGreatChess/Game.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "engines" : {
+  "node":"9.2.1"
+  }
+}
