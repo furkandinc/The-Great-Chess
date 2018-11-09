@@ -1,8 +1,8 @@
 {
-  "name": "hello-heroku",
+  "name": "TheGreatChess",
   "version": "1.0.0",
   "description": "",
-  "main": "TheGreatChess/Game.js",
+  "main": "TheGreatChess/Main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

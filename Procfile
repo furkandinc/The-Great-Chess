@@ -1,1 +1,1 @@
-web: node ./TheGreatChess/Game.js
+web: node ./TheGreatChess/Main.js
