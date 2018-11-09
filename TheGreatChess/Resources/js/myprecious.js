@@ -14,6 +14,46 @@ var init = function() {
     game = new Chess();
 };
 
+
+var evaluateBoard = function (board) {
+    var sum = 0;
+
+    sum += materialValue(board);
+
+    return sum;
+}
+
+var materialValue = function (board) {
+
+    var pieceMaterialValue = function (piece) {
+        if (piece.type === 'p') {
+            return 100;
+        } else if (piece.type === 'r') {
+            return 500;
+        } else if (piece.type === 'n') {
+            return 320;
+        } else if (piece.type === 'b') {
+            return 330;
+        } else if (piece.type === 'q') {
+            return 900;
+        } else if (piece.type === 'k') {
+            return 20000;
+        }
+    }
+
+    var value = 0;
+    for (var i = 0; i < 8; i++) {
+        for (var j = 0; j < 8; j++) {
+            var piece = board[i][j]
+            value = value + (piece.color === 'w' ? 1 : -1) * pieveMaterialValue(piece);
+        }
+    }
+
+    return value;
+}
+
+// Visualization
+
 var onDragStart = function (source, piece, position, orientation) {
     if (game.in_checkmate() === true || game.in_draw() === true ||
         piece.search(/^b/) !== -1) {
