@@ -8,7 +8,7 @@ self.addEventListener("message", function(e) {
 	makeBestMove(depth, game);
 	var moves = game.history();
 	var move = moves[moves.length -1]; // get last move
-	self.postMessage(positionCount+"|"+move);
+	self.postMessage("finished" + "|" + positionCount+"|"+move);
 }, false);
 
 var makeBestMove = function (depth, game) {
@@ -66,17 +66,18 @@ var materialValue = function (board) {
 var minimaxRoot =function(depth, game, isMaximisingPlayer) {
 
     var newGameMoves = game.ugly_moves();
-    var bestMove = -9999;
+    var bestMove = Object.freeze({value: -9999, fen: game.fen()});
     var bestMoveFound;
 
     for(var i = 0; i < newGameMoves.length; i++) {
         var newGameMove = newGameMoves[i]
         game.ugly_move(newGameMove);
-        var value = minimax(depth - 1, game, -10000, 10000, !isMaximisingPlayer);
+        var record = minimax(depth - 1, game, -10000, 10000, !isMaximisingPlayer);
         game.undo();
-        if(value >= bestMove) {
-            bestMove = value;
+        if(record.value >= bestMove.value) {
+            bestMove = record;
             bestMoveFound = newGameMove;
+			postMessage("bestmove" + "|" + bestMove.fen);
         }
     }
     return bestMoveFound;
@@ -85,30 +86,37 @@ var minimaxRoot =function(depth, game, isMaximisingPlayer) {
 var minimax = function (depth, game, alpha, beta, isMaximisingPlayer) {
     positionCount++;
     if (depth === 0) {
-        return -evaluateBoard(game.board());
+		var record = Object.freeze({value: -evaluateBoard(game.board()), fen: game.fen()});
+        return record;
     }
 
     var newGameMoves = game.ugly_moves();
 
     if (isMaximisingPlayer) {
-        var bestMove = -9999;
+        var bestMove = Object.freeze({value: -9999, fen: game.fen()});
         for (var i = 0; i < newGameMoves.length; i++) {
             game.ugly_move(newGameMoves[i]);
-            bestMove = Math.max(bestMove, minimax(depth - 1, game, alpha, beta, !isMaximisingPlayer));
+			var other = minimax(depth -1, game, alpha, beta, !isMaximisingPlayer);
+			if(bestMove.value < other.value){
+				bestMove = other;
+			}
             game.undo();
-            alpha = Math.max(alpha, bestMove);
+            alpha = Math.max(alpha, bestMove.value);
             if (beta <= alpha) {
                 return bestMove;
             }
         }
         return bestMove;
     } else {
-        var bestMove = 9999;
+        var bestMove = Object.freeze({value: 9999, fen: game.fen()});
         for (var i = 0; i < newGameMoves.length; i++) {
             game.ugly_move(newGameMoves[i]);
-            bestMove = Math.min(bestMove, minimax(depth - 1, game, alpha, beta, !isMaximisingPlayer));
+			var other = minimax(depth -1, game, alpha, beta, !isMaximisingPlayer);
+			if(bestMove.value > other.value){
+				bestMove = other;
+			}
             game.undo();
-            beta = Math.min(beta, bestMove);
+            beta = Math.min(beta, bestMove.value);
             if (beta <= alpha) {
                 return bestMove;
             }

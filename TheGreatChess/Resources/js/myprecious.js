@@ -13,18 +13,26 @@ var init = function() {
     };
 	worker = new Worker('js/compute.js');
 	worker.addEventListener('message', function(e) {
-		var positionCount = parseInt(e.data.split("|")[0]);
-		var move = e.data.split("|")[1] + "";
-		game.move(move);
-		board.position(game.fen());
-		renderMoveHistory(game.history());
+		var res = e.data.split("|");
 		
-		var d2 = new Date().getTime();
-		var moveTime = (d2 - d);
-		var positionsPerS = ( positionCount * 1000 / moveTime);
-		$('#position-count').text(positionCount);
-		$('#time').text(moveTime/1000 + 's');
-		$('#positions-per-s').text(positionsPerS);
+		if(res[0]+"" == "finished"){
+			var positionCount = parseInt(res[1]);
+			var move = res[2] + "";
+			game.move(move);
+			board.position(game.fen());
+			renderMoveHistory(game.history());
+			
+			var d2 = new Date().getTime();
+			var moveTime = (d2 - d);
+			var positionsPerS = ( positionCount * 1000 / moveTime);
+			$('#position-count').text(positionCount);
+			$('#time').text(moveTime/1000 + 's');
+			$('#positions-per-s').text(positionsPerS);
+		}
+		else {
+			console.log(res);
+			aiboard.position(res[1] + "");
+		}
 	});
 	
     board = ChessBoard('board', cfg);
