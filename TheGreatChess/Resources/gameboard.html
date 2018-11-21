@@ -41,21 +41,42 @@
 					<div class="col-4" style="border-bottom: 1px solid rgba(1,1,1, 0.3);">White</div>
 					<div class="col-4" style="border-bottom: 1px solid rgba(1,1,1, 0.3);">Black</div>
 				</div>
-				<div class="move-history" id="move-history">
-				</div>
+				<div class="move-history" id="move-history"></div>
 			</div>
 		</div>
 		<div class="row" >
 		
-		</div>
+    </div>
+    <div class="info">
+        Search depth:
+        <select id="search-depth">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+    
+        <br>
+        <span>Positions evaluated: <span id="position-count"></span></span>
+        <br>
+        <span>Time: <span id="time"></span></span>
+        <br>
+        <span>Positions/s: <span id="positions-per-s"></span> </span>
+        <br>
+        <br>
+        <div id="move-history" class="move-history">
+        </div>
+    </div>
+    
 		
 	<div>
 	<script src="js/json3.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-	<script src="js/chess.js"></script>
 	<script src="js/chessboard.js"></script>
+	<script src="js/chess.js"></script>
 	<script src="js/myprecious.js"></script>
 </body>
 </html>
