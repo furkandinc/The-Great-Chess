@@ -77,9 +77,12 @@ var minimaxRoot =function(depth, game, isMaximisingPlayer) {
         if(record.value >= bestMove.value) {
             bestMove = record;
             bestMoveFound = newGameMove;
-			postMessage("bestmove" + "|" + bestMove.fen);
+	
         }
+		postMessage("bestmove" + "|" + bestMove.fen);
     }
+	
+	postMessage("bestmove" + "|" + bestMove.fen);
     return bestMoveFound;
 };
 
