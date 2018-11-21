@@ -1,5 +1,5 @@
 var board, game, cfg, worker;
-
+var d;
 var init = function() {
     cfg = {
         draggable: true,
@@ -11,30 +11,28 @@ var init = function() {
         onSnapEnd: onSnapEnd
     };
 	worker = new Worker('js/compute.js');
+	worker.addEventListener('message', function(e) {
+		var positionCount = parseInt(e.data.split("|")[0]);
+		var move = e.data.split("|")[1] + "";
+		game.move(move);
+		board.position(game.fen());
+		renderMoveHistory(game.history());
+		
+		var d2 = new Date().getTime();
+		var moveTime = (d2 - d);
+		var positionsPerS = ( positionCount * 1000 / moveTime);
+		$('#position-count').text(positionCount);
+		$('#time').text(moveTime/1000 + 's');
+		$('#positions-per-s').text(positionsPerS);
+	});
 	
     board = ChessBoard('board', cfg);
     game = new Chess();
 };
 
 var computeMove = function() {
-	worker.addEventListener('message', function(e) {
-		console.log(game.history());
-		game.move(e.data + "");
-		board.position(game.fen());
-		renderMoveHistory(game.history());
-		/*
-			var depth = parseInt($('#search-depth').find(':selected').text());
-
-			var d = new Date().getTime();
-			var bestMove = minimaxRoot(depth, game, true);
-			var d2 = new Date().getTime();
-			var moveTime = (d2 - d);
-			var positionsPerS = ( positionCount * 1000 / moveTime);
-
-			$('#position-count').text(positionCount);
-			$('#time').text(moveTime/1000 + 's');
-			$('#positions-per-s').text(positionsPerS);*/
-	});
+	d = new Date().getTime();
+	
 	var depth = $('#search-depth').find(':selected').text();
 	worker.postMessage(depth + "|" + game.fen());
 };

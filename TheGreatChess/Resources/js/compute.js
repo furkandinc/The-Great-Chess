@@ -8,7 +8,7 @@ self.addEventListener("message", function(e) {
 	makeBestMove(depth, game);
 	var moves = game.history();
 	var move = moves[moves.length -1]; // get last move
-	self.postMessage(move);
+	self.postMessage(positionCount+"|"+move);
 }, false);
 
 var makeBestMove = function (depth, game) {
