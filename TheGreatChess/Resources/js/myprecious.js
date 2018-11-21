@@ -73,8 +73,26 @@ var onDrop = function (source, target) {
         return 'snapback';
     }
 
-    // renderMoveHistory(game.history());
+    renderMoveHistory(game.history());
     // window.setTimeout(makeBestMove, 250);
+};
+
+var renderMoveHistory = function(moves) {
+	var historyElement = $('#move-history');
+	historyElement.empty();
+	for(var i=0; i< moves.length; i=i+2){
+		var str = '';
+		str += '<div class="row" id="history-' + ((i+2) / 2) + '">\n';
+		str += '<div class="col-2">' + ((i+2) / 2) + '</div>\n';
+		str += '<div class="col-4 move">' + moves[i] + '</div>\n';
+		if(moves.length > i + 1){
+			str += '<div class="col-4 move">' + moves[i+1] + '</div>\n';
+		}
+		str += '</div>';
+		historyElement.append(str);
+	}
+	
+	historyElement.scrollTop(historyElement.height);
 };
 
 var onSnapEnd = function () {
