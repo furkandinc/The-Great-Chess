@@ -1,4 +1,5 @@
 var board, game, cfg, worker;
+var aiboard;
 var d;
 var init = function() {
     cfg = {
@@ -27,6 +28,7 @@ var init = function() {
 	});
 	
     board = ChessBoard('board', cfg);
+	aiboard = ChessBoard('aiboard');
     game = new Chess();
 };
 
@@ -70,11 +72,10 @@ var renderMoveHistory = function(moves) {
 };
 
 var onDrop = function (source, target) {
-
     var move = game.move({
         from: source,
         to: target,
-        promotion: 'q'
+        promotion: $('#preferred-promotion').val()
     });
 
     removeGreySquares();
