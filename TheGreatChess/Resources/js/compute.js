@@ -14,17 +14,10 @@ self.addEventListener("message", function(e) {
 var makeBestMove = function (depth, game) {
     var bestMove = getBestMove(depth, game);
     game.ugly_move(bestMove);
-    if (game.game_over()) {
-        alert('Game over');
-    }
 };
 
 var positionCount;
 var getBestMove = function (depth, game) {
-    if (game.game_over()) {
-        alert('Game over');
-    }
-
     positionCount = 0;
 	var d = parseInt(depth);
 	var bestMove = minimaxRoot(d, game, true);

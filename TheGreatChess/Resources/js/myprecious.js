@@ -35,6 +35,9 @@ var computeMove = function() {
 	
 	var depth = $('#search-depth').find(':selected').text();
 	worker.postMessage(depth + "|" + game.fen());
+	if (game.game_over()) {
+        alert('Game over');
+    }
 };
 
 $(document).ready(init);
