@@ -1,5 +1,8 @@
 var board, game, cfg, worker;
-var aiboard;
+
+var aiboard,lastaifen;
+var aiVisionToggle = true;;
+
 var d;
 var init = function() {
     cfg = {
@@ -30,7 +33,9 @@ var init = function() {
 			$('#positions-per-s').text(positionsPerS);
 		}
 		else {
-			aiboard.position(res[1] + "");
+			lastaifen = res[1] + "";
+			if(aiVisionToggle)
+				aiboard.position(lastaifen);
 		}
 	});
 	
@@ -52,6 +57,16 @@ var computeMove = function() {
 $(document).ready(init);
 
 // Visualization
+
+$('#aiboard').on('click', function(){
+	if(aiVisionToggle) {
+		aiboard.clear();
+		aiVisionToggle = false;
+	} else {
+		aiboard.position(lastaifen);
+		aiVisionToggle = true;
+	}
+});
 
 var onDragStart = function (source, piece, position, orientation) {
     if (game.in_checkmate() === true || game.in_draw() === true ||
