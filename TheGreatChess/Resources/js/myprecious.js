@@ -30,7 +30,6 @@ var init = function() {
 			$('#positions-per-s').text(positionsPerS);
 		}
 		else {
-			console.log(res);
 			aiboard.position(res[1] + "");
 		}
 	});

@@ -7,7 +7,6 @@ self.addEventListener("message", function(e) {
 	var res = e.data.split("|");
 	var depth = res[0];
 	var game = new Chess(res[1] + "");
-	console.log("threat: " + threatValue(game.board()));
 	makeBestMove(depth, game);
 	var moves = game.history();
 	var move = moves[moves.length -1]; // get last move
@@ -27,15 +26,24 @@ var getBestMove = function (depth, game) {
 	return bestMove;
 };
 
-var evaluateBoard = function (board) {
+var evaluateBoard = function (game) {
+	var board = game.board();
     var sum = 0;
 	var materialconstant = 0.8;
 	var threatconstant = 0.2;
 	
     sum += materialconstant * materialValue(board);
 	sum += threatconstant * threatValue(board);
-
+	sum += checkMateValue(game);
+	
     return sum;
+}
+
+var checkMateValue = function(game) {
+	if(game.game_over()){
+		return 20000;
+	}
+	return 0;
 }
 
 var pieceMaterialValue = function (piece) {
@@ -224,7 +232,8 @@ var minimaxRoot =function(depth, game, isMaximisingPlayer) {
 var minimax = function (depth, game, alpha, beta, isMaximisingPlayer) {
     positionCount++;
     if (depth === 0) {
-		var record = Object.freeze({value: -evaluateBoard(game.board()), fen: game.fen()});
+		var evl = (isMaximisingPlayer ? 1 : -1) * evaluateBoard(game);
+		var record = Object.freeze({value: evl, fen: game.fen()});
         return record;
     }
 
