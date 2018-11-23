@@ -232,7 +232,7 @@ var minimaxRoot =function(depth, game, isMaximisingPlayer) {
 var minimax = function (depth, game, alpha, beta, isMaximisingPlayer) {
     positionCount++;
     if (depth === 0) {
-		var record = Object.freeze({value: -evaluateBoard(game.board()), fen: game.fen()});
+		var record = Object.freeze({value: -evaluateBoard(game), fen: game.fen()});
         return record;
     }
 
